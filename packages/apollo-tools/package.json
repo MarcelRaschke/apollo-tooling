@@ -1,6 +1,6 @@
 {
   "name": "@apollographql/apollo-tools",
-  "version": "0.4.8",
+  "version": "0.5.1",
   "author": "Apollo GraphQL <opensource@apollographql.com>",
   "license": "MIT",
   "repository": {
@@ -14,9 +14,6 @@
   "engines": {
     "node": ">=8",
     "npm": ">=6"
-  },
-  "dependencies": {
-    "apollo-env": "file:../apollo-env"
   },
   "jest": {
     "preset": "ts-jest",
@@ -33,9 +30,6 @@
     ],
     "transformIgnorePatterns": [
       "/node_modules/"
-    ],
-    "setupFiles": [
-      "apollo-env"
     ],
     "snapshotSerializers": [
       "<rootDir>/src/__tests__/snapshotSerializers/astSerializer.ts",

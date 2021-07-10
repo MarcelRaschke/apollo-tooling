@@ -9,7 +9,7 @@
 - `apollo-codegen-scala`
   - <First `apollo-codegen-scala` related entry goes here>
 - `apollo-codegen-swift`
-   - <First `apollo-codegen-swift` related entry goes here>
+  - <First `apollo-codegen-swift` related entry goes here>
 - `apollo-codegen-typescript`
   - <First `apollo-codegen-typescript` related entry goes here>
 - `apollo-codegen-core`
@@ -24,6 +24,78 @@
   - <First `apollo-tools` related entry goes here>
 - `vscode-apollo`
   - <First `vscode-apollo` related entry goes here>
+
+## apollo-tools@0.5.1
+- Remove dependency on `apollo-env`, so using this package no longer installs polyfills.
+
+## apollo-graphql@0.9.3
+- Complex directive arguments don't break `transformSchema` (Fixes #2162) [PR #2335](https://github.com/apollographql/apollo-tooling/pull/2335)
+
+## apollo@2.33.2
+
+- Add a deprecation message to all `apollo service:*` commands, pointing people towards the [Apollo Rover CLI migration guide](https://go.apollo.dev/t/migration). <br/>
+  [@hwillson](https://github.com/hwillson) in [#2308](https://github.com/apollographql/apollo-tooling/pull/2308)
+
+## apollo-env@0.10.0
+
+- deps: Updated `node-fetch` to v2.6.1
+
+## apollo-graphql@0.9.2
+
+- Add missing `sha.js` dependency [PR #2283](https://github.com/apollographql/apollo-tooling/pull/2283)
+
+## apollo-env@0.9.0
+
+- The following utility functions are no longer exported from `apollo-env` and can now be found in the `apollo-graphql` library:
+    - `createHash`
+    - `isNodeLike`
+    - `mapValues`
+    - `isNotNullOrDefined`
+
+## apollo-graphql@0.9.0
+
+- This package no longer depends on `apollo-env` to avoid the side-effects of its polyfills.
+
+## `apollo@2.32.5`
+
+- `apollo@2.32.5`
+  - Bump version of `env-ci` [#1754](https://github.com/apollographql/apollo-tooling/pull/1754) [Issue #2219](https://github.com/apollographql/apollo-tooling/issues/2219)
+
+    Due to human error during the release process, the following packages also had their versions bumped, despite having no known significant changes.  (Apologies, from that human.)
+
+    - `apollo-codegen-core@0.39.3`
+    - `apollo-codegen-flow@0.37.3`
+    - `apollo-codegen-scala@0.38.3`
+    - `apollo-codegen-swift@0.39.3`
+    - `apollo-codegen-typescript@0.39.3`
+    - `apollo-env@0.6.6`
+    - `apollo-graphql@0.6.1`
+    - `apollo-language-server@1.25.2`
+    - `@apollographql/apollo-tools@0.4.9`
+    - `vscode-apollo@1.18.2`
+
+## `apollo@2.32.4`
+
+- This version should not be used as it was published without depended-on packages.  Please use `apollo@2.32.5` instead.
+## `apollo@2.32.3`
+
+- This version was not actually published.
+## `apollo@2.32.3`
+
+- This version was not actually published.
+## `apollo@2.32.1`
+- `apollo-codegen-swift`
+  - Fix issue where a query referencing many fragments caused type checking for `queryDocument` to time out [#2198](https://github.com/apollographql/apollo-tooling/pull/2198)
+
+## `apollo@2.32.0`
+
+- `apollo@2.32.0`
+  - Support the standard `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY` environment variables for using an HTTP proxy. [#2181](https://github.com/apollographql/apollo-tooling/pull/2181/)
+
+## `apollo@2.31.2`
+
+- `apollo-codegen-swift`
+   - Fix bug in generated compound type names that lead to structName being inconsistent throughout codegen [#2170](https://github.com/apollographql/apollo-tooling/pull/2170)
 
 ## `apollo@2.31.1`
 
