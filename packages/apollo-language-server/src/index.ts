@@ -12,7 +12,7 @@ export { isServiceProject, GraphQLServiceProject } from "./project/service";
 // GraphQLSchemaProvider
 export {
   GraphQLSchemaProvider,
-  schemaProviderFromConfig
+  schemaProviderFromConfig,
 } from "./providers/schema";
 
 // Engine
@@ -25,5 +25,5 @@ export * from "./config";
 import * as graphqlTypes from "./graphqlTypes";
 export { graphqlTypes };
 
-// debug logger
-export { Debug } from "./utilities";
+// GraphQL utilities
+export { Debug, withTypenameFieldAddedWhereNeeded } from "./utilities";

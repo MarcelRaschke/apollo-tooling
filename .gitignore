@@ -14,14 +14,9 @@ packages/*/package-lock.json
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
-!.vscode/launch.json
 !.vscode/extensions.json
 
 .DS_Store
-
-lerna-debug.log
-
-vscode-apollo-*.vsix
 
 .env
 
@@ -31,3 +26,6 @@ __tmp__*
 
 #idea folder
 .idea/
+
+# volta files installed within the project if using direnv
+.volta

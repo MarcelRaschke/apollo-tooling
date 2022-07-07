@@ -1,25 +1,21 @@
-// this is because of herkou-cli-utils hacky mocking system on their console logger
-import { stdout, mockConsole } from "heroku-cli-util";
 import path from "path";
 import fs from "fs";
-import { test as setup } from "apollo-cli-test";
+import { test } from "apollo-cli-test";
 import {
   getIntrospectionQuery,
   print,
   execute,
   buildSchema,
-  graphql
+  graphql,
 } from "graphql";
 import gql from "graphql-tag";
 
-const test = setup.do(() => mockConsole());
-
 // helper function to resolve files from the actual filesystem
-const resolveFiles = opts => {
+const resolveFiles = (opts) => {
   let files = {};
-  Object.keys(opts).map(key => {
+  Object.keys(opts).map((key) => {
     files[key] = fs.readFileSync(path.resolve(__dirname, opts[key]), {
-      encoding: "utf-8"
+      encoding: "utf-8",
     });
   });
 
@@ -34,7 +30,7 @@ const {
   clientSideSchema,
   clientSideSchemaQuery,
   clientSideOnlySchema,
-  clientSideOnlyQuery
+  clientSideOnlyQuery,
 } = resolveFiles({
   graphQLSchema: "../../service/__tests__/fixtures/schema.graphql",
   simpleQuery: "./fixtures/simpleQuery.graphql",
@@ -43,7 +39,7 @@ const {
   clientSideSchema: "./fixtures/clientSideSchema.graphql",
   clientSideSchemaQuery: "./fixtures/clientSideSchemaQuery.graphql",
   clientSideOnlySchema: "./fixtures/clientSideOnlySchema.graphql",
-  clientSideOnlyQuery: "./fixtures/clientSideOnlyQuery.graphql"
+  clientSideOnlyQuery: "./fixtures/clientSideOnlyQuery.graphql",
 });
 
 // introspection results of a schema, JSON.stringified
@@ -71,7 +67,7 @@ const defaultConfig = `
 const defaultFiles = {
   "./schema.json": fullSchemaJsonString,
   "./queryOne.graphql": simpleQuery.toString(),
-  "./my.config.js": defaultConfig
+  "./my.config.js": defaultConfig,
 };
 
 jest.setTimeout(25000);
@@ -83,7 +79,7 @@ describe("client:codegen", () => {
       "client:codegen",
       "API.swift",
       "--config=my.config.js",
-      "--target=swift"
+      "--target=swift",
     ])
     .it("writes swift types from local schema", () => {
       expect(fs.readFileSync("API.swift").toString()).toMatchSnapshot();
@@ -100,13 +96,13 @@ describe("client:codegen", () => {
             service: { name: "my-service-name", localSchemaFile: "./schema.graphql" }
           }
         }
-      `
+      `,
     })
     .command([
       "client:codegen",
       "API.swift",
       "--config=my.config.js",
-      "--target=swift"
+      "--target=swift",
     ])
     .it("writes swift types from local schema in a graphql file", () => {
       expect(fs.readFileSync("API.swift").toString()).toMatchSnapshot();
@@ -123,14 +119,14 @@ describe("client:codegen", () => {
             service: { name: "my-service-name", localSchemaFile: "./schema.json" }
           }
         }
-      `
+      `,
     })
     .command([
       "client:codegen",
       "API.swift",
       "--config=my.config.js",
       "--target=swift",
-      "--operationIdsPath=myOperationIDs.json"
+      "--operationIdsPath=myOperationIDs.json",
     ])
     .it("generates operation IDs for swift files when flag is set", () => {
       expect(
@@ -145,14 +141,14 @@ describe("client:codegen", () => {
       "schema.json": fullSchemaJsonString,
       "queryOne.graphql": simpleQuery.toString(),
       "queryTwo.graphql": otherQuery.toString(),
-      "my.config.js": defaultConfig
+      "my.config.js": defaultConfig,
     })
     .command([
       "client:codegen",
       "--config=my.config.js",
       "--only=queryTwo.graphql",
       "--target=swift",
-      "outDirectory"
+      "outDirectory",
     ])
     .it("handles only flag for Swift target", () => {
       const [filePath] = fs.readdirSync("./outDirectory");
@@ -165,13 +161,13 @@ describe("client:codegen", () => {
     .fs({
       "schema.json": fullSchemaJsonString,
       "queryOne.graphql": simpleQuery.toString(),
-      "my.config.js": defaultConfig
+      "my.config.js": defaultConfig,
     })
     .command([
       "client:codegen",
       "--target=scala",
       "API.scala",
-      "--config=my.config.js"
+      "--config=my.config.js",
     ])
     .it("writes types for scala", () => {
       expect(fs.readFileSync("API.scala").toString()).toMatchSnapshot();
@@ -181,14 +177,14 @@ describe("client:codegen", () => {
     .fs({
       "schema.json": fullSchemaJsonString,
       "queryOne.graphql": simpleQuery.toString(),
-      "my.config.js": defaultConfig
+      "my.config.js": defaultConfig,
     })
     .command([
       "client:codegen",
       "--config=my.config.js",
       "--target=typescript",
       "--outputFlat",
-      "API.ts"
+      "API.ts",
     ])
     .it("writes types for typescript", () => {
       expect(fs.readFileSync("API.ts").toString()).toMatchSnapshot();
@@ -198,7 +194,7 @@ describe("client:codegen", () => {
     .fs({
       "schema.json": fullSchemaJsonString,
       "queryOne.graphql": simpleQuery.toString(),
-      "my.config.js": defaultConfig
+      "my.config.js": defaultConfig,
     })
     .command([
       "client:codegen",
@@ -206,11 +202,11 @@ describe("client:codegen", () => {
       "--target=typescript",
       "--tsFileExtension=d.ts",
       "--outputFlat",
-      "outDirectory"
+      "outDirectory",
     ])
     .it("writes types for typescript with a custom extension", () => {
       const files = fs.readdirSync("./outDirectory");
-      const filePath = files.find(f => f === "SimpleQuery.d.ts");
+      const filePath = files.find((f) => f === "SimpleQuery.d.ts");
       expect(filePath).toBeDefined();
       const file = fs.readFileSync(`./outDirectory/${filePath}`).toString();
       expect(file).toMatchSnapshot();
@@ -221,14 +217,14 @@ describe("client:codegen", () => {
       "schema.json": fullSchemaJsonString,
       "clientSideSchema.graphql": clientSideSchema.toString(),
       "clientSideSchemaQuery.graphql": clientSideSchemaQuery.toString(),
-      "my.config.js": defaultConfig
+      "my.config.js": defaultConfig,
     })
     .command([
       "client:codegen",
       "--config=my.config.js",
       "--target=typescript",
       "--outputFlat",
-      "__tmp__API.ts" // for some reason, this gets moved to root dir. naming __tmp__ to get .gitignore'd
+      "__tmp__API.ts", // for some reason, this gets moved to root dir. naming __tmp__ to get .gitignore'd
     ])
     .it(
       "writes typescript types for query with client-side data when client schema in graphql file",
@@ -249,14 +245,14 @@ describe("client:codegen", () => {
             service: { name: "my-service-name", localSchemaFile: "./schema.json" }
           }
         }
-    `
+    `,
     })
     .command([
       "client:codegen",
       "--config=my.config.js",
       "--target=typescript",
       "--outputFlat",
-      "__tmp__API.ts" // for some reason, this gets moved to root dir. naming __tmp__ to get .gitignore'd
+      "__tmp__API.ts", // for some reason, this gets moved to root dir. naming __tmp__ to get .gitignore'd
     ])
     .it(
       "writes typescript types for query with client-side data when client schema in js file",
@@ -311,14 +307,14 @@ describe("client:codegen", () => {
             service: { name: "my-service-name", localSchemaFile: "./clientSideOnlySchema.graphql" }
           }
         }
-    `
+    `,
     })
     .command([
       "client:codegen",
       "--config=my.config.js",
       "--target=typescript",
       "--outputFlat",
-      "__tmp__API.ts"
+      "__tmp__API.ts",
     ])
     .it("writes types for query with only client-side data", () => {
       expect(fs.readFileSync("__tmp__API.ts").toString()).toMatchSnapshot();
@@ -328,14 +324,14 @@ describe("client:codegen", () => {
     .fs({
       "schema.json": fullSchemaJsonString,
       "queryOne.graphql": simpleQuery.toString(),
-      "my.config.js": defaultConfig
+      "my.config.js": defaultConfig,
     })
     .command([
       "client:codegen",
       "--config=my.config.js",
       "--target=flow",
       "--outputFlat",
-      "__tmp__API.js"
+      "__tmp__API.js",
     ])
     .it("writes flow types", () => {
       expect(fs.readFileSync("__tmp__API.js").toString()).toMatchSnapshot();
@@ -345,7 +341,7 @@ describe("client:codegen", () => {
     .fs({
       "schema.json": fullSchemaJsonString,
       "queryOne.graphql": simpleQuery.toString(),
-      "my.config.js": defaultConfig
+      "my.config.js": defaultConfig,
     })
     .command([
       "client:codegen",
@@ -353,7 +349,7 @@ describe("client:codegen", () => {
       "--target=flow",
       "--outputFlat",
       "--useFlowExactObjects",
-      "__tmp__API.js"
+      "__tmp__API.js",
     ])
     .it(
       "writes exact Flow types when the useFlowExactObjects flag is set",
@@ -366,7 +362,7 @@ describe("client:codegen", () => {
     .fs({
       "schema.json": fullSchemaJsonString,
       "queryOne.graphql": simpleQuery.toString(),
-      "my.config.js": defaultConfig
+      "my.config.js": defaultConfig,
     })
     .command([
       "client:codegen",
@@ -374,7 +370,7 @@ describe("client:codegen", () => {
       "--target=flow",
       "--outputFlat",
       "--useFlowReadOnlyTypes",
-      "__tmp__API.js"
+      "__tmp__API.js",
     ])
     .it("writes read-only Flow types when the deprecated flag is set", () => {
       expect(fs.readFileSync("__tmp__API.js").toString()).toMatchSnapshot();
@@ -384,7 +380,7 @@ describe("client:codegen", () => {
     .fs({
       "schema.json": fullSchemaJsonString,
       "queryOne.graphql": simpleQuery.toString(),
-      "my.config.js": defaultConfig
+      "my.config.js": defaultConfig,
     })
     .command([
       "client:codegen",
@@ -392,7 +388,7 @@ describe("client:codegen", () => {
       "--target=flow",
       "--outputFlat",
       "--useReadOnlyTypes",
-      "__tmp__API.js"
+      "__tmp__API.js",
     ])
     .it("writes read-only Flow types when the flag is set", () => {
       expect(fs.readFileSync("__tmp__API.js").toString()).toMatchSnapshot();
@@ -402,13 +398,13 @@ describe("client:codegen", () => {
     .fs({
       "schema.json": fullSchemaJsonString,
       "queryOne.graphql": simpleQuery.toString(),
-      "my.config.js": defaultConfig
+      "my.config.js": defaultConfig,
     })
     .command([
       "client:codegen",
       "--target=json",
       "--config=my.config.js",
-      "__tmp__operations.json"
+      "__tmp__operations.json",
     ])
     .it("writes json operations", () => {
       const output = JSON.parse(
@@ -423,13 +419,13 @@ describe("client:codegen", () => {
     .fs({
       "schema.json": fullSchemaJsonString,
       "queryOne.graphql": simpleQuery.toString(),
-      "my.config.js": defaultConfig
+      "my.config.js": defaultConfig,
     })
     .command([
       "client:codegen",
       "--target=json-modern",
       "--config=my.config.js",
-      "__tmp__operations.json"
+      "__tmp__operations.json",
     ])
     .it("writes json operations with typeNode (json-modern)", () => {
       const output = JSON.parse(
@@ -460,7 +456,7 @@ describe("client:codegen", () => {
             service: { name: "my-service-name", localSchemaFile: "./schema.json" }
           }
         }
-      `
+      `,
     })
     .command(["client:codegen", "--target=typescript", "--config=my.config.js"])
     .it(
@@ -496,7 +492,7 @@ describe("client:codegen", () => {
             service: { name: "my-service-name", localSchemaFile: "./schema.json" }
           }
         }
-      `
+      `,
     })
     .command(["client:codegen", "--target=flow", "--config=my.config.js"])
     .it(
@@ -529,13 +525,13 @@ describe("client:codegen", () => {
             service: { name: "my-service-name", localSchemaFile: "./schema.json" }
           }
         }
-      `
+      `,
     })
     .command([
       "client:codegen",
       "--config=my.config.js",
       "--target=typescript",
-      "__foo__"
+      "__foo__",
     ])
     .it(
       "writes TypeScript types to a custom directory next to sources when output is set",
@@ -566,13 +562,13 @@ describe("client:codegen", () => {
             service: { name: "my-service-name", localSchemaFile: "./schema.json" }
           }
         }
-      `
+      `,
     })
     .command([
       "client:codegen",
       "--config=my.config.js",
       "--target=typescript",
-      "--globalTypesFile=__foo__/bar.ts"
+      "--globalTypesFile=__foo__/bar.ts",
     ])
     .it(
       "writes TypeScript global types to a custom path when globalTypesFile is set",
@@ -603,13 +599,13 @@ describe("client:codegen", () => {
             service: { name: "my-service-name", localSchemaFile: "./schema.json" }
           }
         }
-    `
+    `,
     })
     .command([
       "client:codegen",
       "--config=my.config.js",
       "--target=flow",
-      "__foo__"
+      "__foo__",
     ])
     .it(
       "writes Flow types to a custom directory next to sources when output is set",
@@ -639,13 +635,13 @@ describe("client:codegen", () => {
             service: { name: "my-service-name", localSchemaFile: "./schema.json" }
           }
         }
-      `
+      `,
     })
     .command([
       "client:codegen",
       "--config=my.config.js",
       "--target=typescript",
-      ""
+      "",
     ])
     .it(
       "writes TypeScript types next to sources when output is set to empty string",
@@ -676,7 +672,7 @@ describe("client:codegen", () => {
             service: { name: "my-service-name", localSchemaFile: "./schema.json" }
           }
         }
-      `
+      `,
     })
     .command(["client:codegen", "--config=my.config.js", "--target=flow", ""])
     .it(
@@ -705,14 +701,14 @@ describe("client:codegen", () => {
             service: { name: "my-service-name", localSchemaFile: "./schema.json" }
           }
         }
-    `
+    `,
     })
     .command([
       "client:codegen",
       "--config=my.config.js",
       "--target=typescript",
       "--tagName=customGraphQLTag",
-      "--outputFlat"
+      "--outputFlat",
     ])
     .it("extracts queries with a custom tagName provided as a flag", () => {
       expect(
@@ -738,13 +734,13 @@ describe("client:codegen", () => {
             tagName: 'customGraphQLTag'
           }
         }
-    `
+    `,
     })
     .command([
       "client:codegen",
       "--config=my.config.js",
       "--target=typescript",
-      "--outputFlat"
+      "--outputFlat",
     ])
     .it("extracts queries with a custom tagName provided in the config", () => {
       expect(
@@ -757,13 +753,13 @@ describe("error handling", () => {
   test
     .fs(defaultFiles)
     .command(["client:codegen", "--config=my.config.js", "--target=foobar"])
-    .catch(err => expect(err.message).toMatch(/Unsupported target: foobar/))
+    .catch((err) => expect(err.message).toMatch(/Unsupported target: foobar/))
     .it("errors with an unsupported target");
 
   test
     .fs(defaultFiles)
     .command(["client:codegen", "--config=my.config.js", "--target=swift"])
-    .catch(err =>
+    .catch((err) =>
       expect(err.message).toMatch(/The output path must be specified/)
     )
     .it("errors when no output file is provided");
@@ -771,6 +767,6 @@ describe("error handling", () => {
   test
     .fs(defaultFiles)
     .command(["client:codegen", "--config=my.config.js", "output-file"])
-    .catch(err => expect(err.message).toMatch(/Missing required flag/))
+    .catch((err) => expect(err.message).toMatch(/Missing required flag/))
     .it("errors when no target specified");
 });
