@@ -32,7 +32,9 @@
     "package-extension": "npm run clean && npm ci && lerna run package-extension --stream --scope=vscode-apollo",
     "package-extension:no-clean": "lerna run package-extension --stream --scope=vscode-apollo",
     "publish-extension": "lerna run publish-extension --stream --scope=vscode-apollo",
-    "client:codegen": "node ./packages/apollo/bin/run client:codegen --target=typescript --outputFlat ./packages/apollo-language-server/src/graphqlTypes.ts"
+    "client:codegen": "node ./packages/apollo/bin/run client:codegen --target=typescript --outputFlat ./packages/apollo-language-server/src/graphqlTypes.ts",
+    "prepare": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "engines": {
     "node": ">=8",
@@ -49,7 +51,8 @@
     "apollo-env": "file:packages/apollo-env",
     "apollo-graphql": "file:packages/apollo-graphql",
     "apollo-language-server": "file:packages/apollo-language-server",
-    "vscode-apollo": "file:packages/vscode-apollo"
+    "vscode-apollo": "file:packages/vscode-apollo",
+    "@snyk/protect": "latest"
   },
   "devDependencies": {
     "@fancy-test/nock": "0.1.1",
@@ -112,5 +115,6 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  }
+  },
+  "snyk": true
 }
